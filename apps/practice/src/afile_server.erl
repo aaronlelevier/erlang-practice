@@ -18,7 +18,9 @@ loop(Dir) ->
     {Client, list_dir} ->
       Client ! {self(), file:list_dir(Dir)};
     {Client, {get_file, File}} ->
-      Client ! {self(), file:read_file(File)}
+      Client ! {self(), file:read_file(File)};
+    {Client, {put_file, Filename, Bytes}} ->
+      Client ! {self(), file:write_file(Filename, Bytes)}
   end,
   loop(Dir).
 
@@ -34,4 +36,11 @@ get_file(Server, File) ->
   receive
     {Server, FileContent} ->
       FileContent
+  end.
+
+put_file(Server, Filename, Bytes) ->
+  Server ! {self(), {put_file, Filename, Bytes}},
+  receive
+    {Server, Reply} ->
+      Reply
   end.
