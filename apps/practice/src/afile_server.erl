@@ -7,8 +7,14 @@
 -module(afile_server).
 -author("Aaron Lelevier").
 -vsn(1.0).
--export([]).
--compile(export_all).
+-export([
+  start/1,
+  loop/1,
+  ls/1,
+  get_file/2,
+  put_file/3
+]).
+
 
 start(Dir) ->
   spawn(?MODULE, loop, [Dir]).
