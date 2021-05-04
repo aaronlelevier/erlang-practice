@@ -7,8 +7,13 @@
 -module(plists).
 -author("Aaron Lelevier").
 -vsn(1.0).
--export([]).
--compile(export_all).
+-export([
+  any/1,
+  all/1,
+  dropwhile/1,
+  droplast/1,
+  join/2
+]).
 
 any(L) ->
   lists:any(fun(X) -> X =:= true end, L).
