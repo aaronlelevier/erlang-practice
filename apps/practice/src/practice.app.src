@@ -5,7 +5,9 @@
   {mod, {practice_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    % 3rd party
+    jsx
    ]},
   {env,[]},
   {modules, []},
