@@ -4,7 +4,7 @@
 %%% @end
 %%% Created : 14. May 2021 9:24 AM
 %%%-------------------------------------------------------------------
--module(gen_tcp_example).
+-module(networking).
 -author("Aaron Lelevier").
 -vsn(1.0).
 -export([
