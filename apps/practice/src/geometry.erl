@@ -12,6 +12,15 @@
   perimeter/1
 ]).
 
+%% experimenting with opaque types
+-opaque square() :: {side, number()}.
+
+%% normal type
+-type rectangle() :: {height, integer(), width, integer()}.
+
+%% both
+-export_type([square/0, rectangle/0]).
+
 area({rectangle, Width, Height}) -> Width * Height;
 area({square, Side}) -> Side * Side;
 area({circle, Radius}) -> 2 * Radius * math:pi();
