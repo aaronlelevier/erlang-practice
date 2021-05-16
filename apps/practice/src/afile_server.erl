@@ -16,8 +16,18 @@
 ]).
 
 
+%% start(Dir) starts the server to interact with 'Dir'
+
+-spec start(Dir) -> pid() when
+  Dir :: file:name_all().
+
 start(Dir) ->
   spawn(?MODULE, loop, [Dir]).
+
+%% loop(Dir) is the send and receive msg loop
+
+-spec loop(Dir) -> no_return() when
+  Dir :: file:name_all().
 
 loop(Dir) ->
   receive
@@ -30,12 +40,24 @@ loop(Dir) ->
   end,
   loop(Dir).
 
+%% ls(Server) lists a files in the server's 'Dir'
+
+-spec ls(Server) -> {ok, Filenames} when
+  Server :: pid(),
+  Filenames :: [file:filename()].
+
 ls(Server) ->
   Server ! {self(), list_dir},
   receive
-    {Server, FileList} ->
-      FileList
+    {Server, {ok, FileList}} ->
+      {ok, FileList}
   end.
+
+%% get_file(Server, File) returns the contents of a file
+
+-spec get_file(Server, File) -> {ok, binary()} when
+  Server :: pid(),
+  File :: file:filename().
 
 get_file(Server, File) ->
   Server ! {self(), {get_file, File}},
@@ -43,6 +65,14 @@ get_file(Server, File) ->
     {Server, FileContent} ->
       FileContent
   end.
+
+%% put_file(Server, Filename, Bytes) writes a file
+
+-spec put_file(Server, Filename, Bytes) -> ok | {error, Reason} when
+  Server :: pid(),
+  Filename :: file:filename(),
+  Bytes :: iodata(),
+  Reason :: file:posix().
 
 put_file(Server, Filename, Bytes) ->
   Server ! {self(), {put_file, Filename, Bytes}},

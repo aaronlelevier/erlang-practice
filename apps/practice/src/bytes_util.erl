@@ -18,13 +18,13 @@
 reverse_bytes(Bin) ->
   list_to_binary(lists:reverse(binary_to_list(Bin))).
 
--spec term_to_packet(any()) -> binary().
+-spec term_to_packet(any()) -> bitstring().
 term_to_packet(Term) ->
   Bin = term_to_binary(Term),
   Size = size(Bin),
   <<Size:4, Bin/binary>>.
 
--spec packet_to_term(binary()) -> {integer(), any()}.
+-spec packet_to_term(bitstring()) -> {byte(), any()}.
 packet_to_term(Packet) ->
   <<Size:4, Bin/binary>> = Packet,
   Term = binary_to_term(Bin),
